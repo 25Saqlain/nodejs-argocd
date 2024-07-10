@@ -41,6 +41,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Install Argo CD CLI
+      run: |
+        curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+        chmod +x /usr/local/bin/argocd
+
     - name: ArgoCD Login
       run: |
         argocd login ${{ secrets.ARGOCD_SERVER }} --username admin --password ${{ secrets.ARGOCD_PASSWORD }} --insecure
