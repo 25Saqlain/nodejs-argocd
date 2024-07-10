@@ -48,7 +48,11 @@ jobs:
 
     - name: ArgoCD Login
       run: |
-        argocd login ${{ secrets.ARGOCD_SERVER }} --username admin --password ${{ secrets.ARGOCD_PASSWORD }} --insecure
+        ARGOCD_SERVER="${{ secrets.ARGOCD_SERVER }}"
+        if [[ "$ARGOCD_SERVER" != http* ]]; then
+          ARGOCD_SERVER="https://$ARGOCD_SERVER"
+        fi
+        argocd login $ARGOCD_SERVER --username admin --password ${{ secrets.ARGOCD_PASSWORD }} --insecure
 
     - name: Update ArgoCD Application Image
       run: |
